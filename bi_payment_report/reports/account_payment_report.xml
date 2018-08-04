@@ -14,9 +14,22 @@
             <t t-call="report.html_container">
                 <t t-call="report.external_layout">
                     <div class="page">
-                        <div class="oe_structure"/>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:10%;"/>
+                                <td style="width:40%;">From :
+                                    <span t-esc="dates[0]"/>
+                                </td>
+                                <td style="width:5%;"/>
+                                <td style="width:45%">To :
+                                    <span t-esc="dates[1]"/>
+                                </td>
+
+                            </tr>
+                        </table>
+                        <br/>
                         <center>
-                            <strong>Payments Report</strong>
+                            <h4>Payments Report</h4>
                         </center>
                         <br/>
                         <table class="table">
@@ -53,7 +66,7 @@
                                     <tr>
                                         <td style="margin-left:30px;">
                                             &#9658;
-                                            <span t-esc="o_value['team']"/>
+                                            <!--<span t-esc="o_value['team']"/>-->
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -66,7 +79,7 @@
                                     <tr>
                                         <td style="margin-left:60px;">
                                             &#9658;
-                                            <span t-esc="o_value['journal']"/>
+                                            <!--<span t-esc="o_value['journal']"/>-->
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -76,32 +89,32 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    <t t-foreach="o_value['records']" t-as="payment">
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <span t-esc="payment.payment_date"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="payment.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="payment.journal_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="payment.payment_method_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="payment.partner_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="payment.amount"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="payment.state"/>
-                                            </td>
-                                        </tr>
-                                    </t>
+                                    <!--<t t-foreach="o_value['records']" t-as="payment">-->
+                                    <!--<tr>-->
+                                    <!--<td></td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.payment_date"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.name"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.journal_id.name"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.payment_method_id.name"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.partner_id.name"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.amount"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<span t-esc="payment.state"/>-->
+                                    <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</t>-->
                                 </tbody>
                             </table>
                         </t>
