@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2016, 2017 Openworx.
+  License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+-->
+
+<odoo>
+   <template id="bdprinter" inherit_id="product.report_simple_label" name="bdprint">
+        <xpath expr="//div[@class='col-xs-4']" position="replace">
+
+      
+            
+           
+                
+                    <table style="margin-top:5px;min-width:3.14in;max-width:3.14in;min-height:0.55in;max-height:0.55in;font-size:9px;margin-left:7px;">
+                        <tbody>
+
+                               
+                        
+                                <tr>
+                                    <td style="width:82px;max-width:82px;overflow:hidden">
+                                    
+                                        <table>
+                                                <tr>
+                                                        <td>
+                                       <strong style="white-space:nowrap"  t-field="product.name"></strong>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label style="white-space:nowrap">Barcode *<strong t-field="product.default_code">*</strong></label>
+                                                    </td>
+                                                                    
+                                                        
+                                                                
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                          <label style="white-space:nowrap">PRICE *<strong t-field="product.list_price"></strong></label>
+
+                                                    </td>
+                                                </tr>
+
+                                        </table>
+
+                                    </td>
+                                    <td style="width:82px;max-width:82px;overflow:hidden">
+                                    <img t-if="product.barcode and len(product.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', product.barcode, 600, 150)" style="margin:0 auto;width:100%;height:20%" />
+                                    <img t-elif="product.barcode and len(product.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', product.barcode, 600, 150)" style="margin:0 auto;width:100%;height:20%" />
+                                    <img t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', product.barcode, 600, 150)" style="margin:0 auto;width:100%;height:20%" />
+
+                                    </td>
+                                    <td style="width:136px;max-width:136px;overflow:hidden">
+                                    <label></label>
+                                    </td>
+                                </tr>
+             
+                    </tbody>
+                    </table>
+
+
+
+              
+        </xpath>
+   </template>
+
+   <template id="bdprinter2" inherit_id="product.report_producttemplatelabel" name="bdprint2">
+        <xpath expr="//div[@class='page']" position="replace">
+        <div class='page'> 
+        <style>
+     html,body {
+        width: 3.14in;
+        height: 0.55in;
+        margin: 0!important;
+        padding: 0!important;
+        font: 12pt "Tahoma";
+    }
+    @page {
+        width: 3.14in;
+        height: 0.55in;
+    }
+    @media print {
+        html, body {
+        width: 3.14in;
+        height: 0.55in;
+        background-color: yellow;
+        }
+        .page {
+            margin: 0;
+            border: initial;
+            border-radius: initial;
+            width: initial;
+            min-height: initial;
+            box-shadow: initial;
+            background: initial;
+            page-break-after: always;
+        }
+    }
+        </style>
+            <t t-foreach="docs" t-as="template">
+                <t t-foreach="template.product_variant_ids" t-as="product">
+                    <t t-call="product.report_simple_label">
+                        <t t-set="product" t-value="product"/>
+                    </t>
+                </t>
+            </t>
+        </div>
+                
+        </xpath>
+   </template>
+
+</odoo>

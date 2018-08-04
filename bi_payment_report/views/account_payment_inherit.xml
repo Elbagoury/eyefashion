@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_account_payment_search_inherit" model="ir.ui.view">
+            <field name="name">view.account.payment.search.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[9]" position="after">
+                    <filter string="Payment Day" domain="[]" context="{'group_by':'payment_date:day'}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

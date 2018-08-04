@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2016, 2017 Openworx.
+  License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+-->
+
+<odoo>
+  
+   <template id="app_login" inherit_id="web.login_layout" name="melogin">
+        <xpath expr="//div[@class='row']" position="replace">
+    
+                    
+                                <div class="row" id="login-v2">
+                                    <div style="height:100%;padding:0" class="col-md-9 slider">
+                                      <div id="login-v2-intro">
+                                      
+                                      </div>
+                                    </div>
+                                     <div class="col-md-3">
+                                      <div class="row" id="login-v2-form-wrapper">
+                                            <div id="login-v2-form">
+                                              
+                                                  <img style="display:block;margin:0 auto;" src="/backend_theme_v10/static/src/img/logo-solid.png" width="80%"/>
+                                              
+                                                  <div style="padding-top:25px"  id="login-header">
+                                                      <div class="title">Welcome !</div>
+
+                                                      <div class="description">Login to your Account</div>
+                                                      <hr/>
+                                                  </div>
+                                                  <t t-raw="0"/>
+                                                  <div style="padding-top:25px;text-align:center"  id="login-footer">
+                                                                                                        <hr/>
+
+                                                  <p>
+                                                    Powered by
+                                                  </p>
+                                         
+                                                    <img src="/backend_theme_v10/static/src/img/em-logo.png" width="30%"/>
+                                                    <img src="/backend_theme_v10/static/src/img/optica.png" width="20%"/>
+
+                                                  </div>
+
+                                                 
+
+                                            </div>
+                                         </div>
+
+                                    </div>
+                                </div>
+                                
+                            
+                            
+                               
+
+                                        
+                          
+      
+        </xpath>
+    </template>
+</odoo>

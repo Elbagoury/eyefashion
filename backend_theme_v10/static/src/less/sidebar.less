@@ -1,0 +1,84 @@
+/* Copyright 2016, 2017 Openworx.
+ * License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+
+/* App Sidebar Panel */
+
+@odoo-sidebar-width: 180px;
+
+.app-sidebar-panel {
+    .o-flex(0, 0, @odoo-sidebar-width);
+    background-color: rgb(45,50,62);
+    height: 100% !important;
+    overflow-y: auto;
+    @media (max-width: @screen-sm-min) {
+      display: none;
+    }
+}
+
+//.app-sidebar-panel:hover {
+//    .o-flex(0, 0, @odoo-sidebar-width);
+//}
+
+#app-sidebar {
+    flex:  0 0 240px;
+    -webkit-flex: 0 0 240px;
+    flex:  0 0 240px;
+    -webkit-flex: 0 0 240px;
+    background-color: rgb(45,50,62);
+    color: rgba(255,255,255,1);
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.app-sidebar {
+    white-space: nowrap;
+    padding: 0;
+    .app-sidebar-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	>li {
+	    display: block;
+	    margin: 0;
+	    padding: 0;
+        border: 0px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 8px;
+        cursor: auto;
+        background: none ;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+	    >a {
+            display: block;
+            position: relative;
+            margin: 0;
+            border: 0px;
+            padding: 8px 15px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 300;
+            color: @gray-lighter;
+            overflow: hidden;
+            text-overflow: ellipsis;
+	    }
+	}
+        > li:hover > a{
+    	    background: darken(@odoo-brand-primary, 15%);
+    	    color: #fff;
+        }
+    }
+}
+
+.app-sidebar-menuitem {
+    width: 23px;
+    height: 22px;
+    margin-right: 5px;
+    display: none;
+
+}
+
+.toggle-sidebar {
+    margin-left: 0px - @odoo-sidebar-width;
+}

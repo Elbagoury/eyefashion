@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report id="account_payment_report"
+                model="account.payment"
+                string="Payment Report"
+                report_type="qweb-pdf"
+                name="bi_payment_report.account_payment_template"
+                file="bi_payment_report.account_payment_template"
+                attachment_use="False"
+                menu="False"/>
+
+        <template id="account_payment_template">
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <center>
+                            <strong>Payments Report</strong>
+                        </center>
+                        <br/>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Payment Date</th>
+                                    <th>Name</th>
+                                    <th>Payment Journal</th>
+                                    <th>Payment Method Type</th>
+                                    <th>Customer</th>
+                                    <th>Payment Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <t t-foreach="docs" t-as="o">
+                            <table class="table" style="margin-top:-27px;">
+                                <tbody>
+                                    <tr style="background-color:#e9ecef">
+                                        <td>
+                                            <span t-esc="o_value['date']"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="margin-left:30px;">
+                                            &#9658;
+                                            <span t-esc="o_value['team']"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="margin-left:60px;">
+                                            &#9658;
+                                            <span t-esc="o_value['journal']"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <t t-foreach="o_value['records']" t-as="payment">
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <span t-esc="payment.payment_date"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="payment.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="payment.journal_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="payment.payment_method_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="payment.partner_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="payment.amount"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="payment.state"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2016, 2017 Openworx.
+    @author Mario Gielissen <mario@openworx.nl>
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+    <data>
+		<template id="assets_backend" name="Backend Theme" inherit_id="web.assets_backend">
+			<xpath expr=".">
+				<link rel="stylesheet" href="/backend_theme_v10/static/src/less/drawer.less"/>
+				<link rel="stylesheet" href="/backend_theme_v10/static/src/less/variables.less"/>
+				<link rel="stylesheet" href="/backend_theme_v10/static/src/less/bootswatch.less"/>
+				<link rel="stylesheet" href="/backend_theme_v10/static/src/less/style.less"/>
+				<link rel="stylesheet" href="/backend_theme_v10/static/src/less/sidebar.less"/>
+
+				<script type="application/javascript" src="/backend_theme_v10/static/src/js/sidebar.js"/>
+				<script type="application/javascript" src="/backend_theme_v10/static/src/js/sidebar-toggle.js"/>
+			</xpath>
+		</template>
+				<template id="assets_frontend" name="Backend front" inherit_id="web.assets_frontend">
+			<xpath expr="." position="inside">
+								<link rel="stylesheet" href="/backend_theme_v10/static/src/less/vegas.min.css"/>
+
+		          				<link rel="stylesheet" href="/backend_theme_v10/static/src/less/login.less"/>
+								<script type="application/javascript" src="/backend_theme_v10/static/src/js/vegas.min.js"/>
+								<script type="application/javascript" src="/backend_theme_v10/static/src/js/login-slider.js"/>
+
+
+			</xpath>
+		</template>
+
+    </data>
+</odoo>

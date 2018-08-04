@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem name="Payment Report"
+                  id="payment_report_wizard_menu"
+                  parent="account.menu_account_reports"
+                  action="payment_report_wizard_action"
+                  sequence="10"/>
+    </data>
+</odoo>
