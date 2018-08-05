@@ -359,8 +359,7 @@
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="replace">
                 <field name="has_pricelist_discount" invisible="1"/>
-                <field name="order_corporate_id" invisible="1" />
-                <field name="discount" attrs="{'readonly':['|',('order_corporate_id','!=',False),('has_pricelist_discount','=',True)]}"
+                <field name="discount" attrs="{'readonly':[('has_pricelist_discount','=',True)]}"
                        groups="sale.group_discount_per_so_line"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="replace">

@@ -30,7 +30,6 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).action_cancel()
         for rec in self:
             rec.write({'custom_status': 'reject'})
-        print(rec.custom_status)
         return res
 
     @api.multi

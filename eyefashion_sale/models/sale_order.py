@@ -523,7 +523,6 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     has_pricelist_discount = fields.Boolean('Apply Discount')
-    order_corporate_id = fields.Many2one('res.partner', related='order_id.corporate_id', readonly=1, string='Corporate')
 
     @api.onchange('product_uom_qty', 'product_uom', 'route_id')
     def _onchange_product_id_check_availability(self):
@@ -614,8 +613,6 @@ class SaleOrderLine(models.Model):
                 vals['has_pricelist_discount'] = True
             else:
                 vals['has_pricelist_discount'] = False
-        if self.order_id.corporate_id:
-            vals['order_corporate_id'] = self.order_id.corporate_id.id
 
         self.update(vals)
 
