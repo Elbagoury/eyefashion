@@ -10,8 +10,8 @@ import odoo.addons.decimal_precision as dp
 class SaleOrderPayment(models.Model):
     _name = 'sale.order.payment'
 
-    sale_order = fields.Many2one('sale.order','Sale Order')
-    payment_method_id = fields.Many2one('account.journal','Payment Method')
+    sale_order = fields.Many2one('sale.order', 'Sale Order')
+    payment_method_id = fields.Many2one('account.journal', 'Payment Method')
     amount = fields.Float('Amount')
 
 
@@ -21,7 +21,8 @@ class SaleOrder(models.Model):
     def _get_related_account_payments(self):
         for order in self:
             payment_ids = []
-            payment_ids += [purchase.id for purchase in self.env['account.payment'].search([('sale_id', '=', order.id)])]
+            payment_ids += [purchase.id for purchase in
+                            self.env['account.payment'].search([('sale_id', '=', order.id)])]
             order.payment_ids = payment_ids
 
     @api.onchange('order_line')
@@ -51,7 +52,6 @@ class SaleOrder(models.Model):
         analytic_account_id = self.env['crm.team'].browse(sales_team_id).analytic_account_id
         return analytic_account_id
 
-
     @api.depends('order_line.price_total')
     def _amount_all(self):
         """
@@ -78,7 +78,8 @@ class SaleOrder(models.Model):
                 )
                 line.price_unit = line.product_id.lst_price
                 if line.order_id.pricelist_id and line.order_id.partner_id:
-                    line.price_unit = self.env['account.tax']._fix_tax_included_price(line._get_display_price(product),product.taxes_id, line.tax_id)
+                    line.price_unit = self.env['account.tax']._fix_tax_included_price(line._get_display_price(product),
+                                                                                      product.taxes_id, line.tax_id)
                 amount_untaxed += line.price_subtotal
                 amount_tax += line.price_tax
 
@@ -95,15 +96,15 @@ class SaleOrder(models.Model):
             })
 
     # payment_ids = fields.One2many('sale.order.payment','sale_order','Payments')
-    corporate_id = fields.Many2one('res.partner','Corporate')
+    corporate_id = fields.Many2one('res.partner', 'Corporate')
     sale_type = fields.Char('Type')
     is_corporate = fields.Boolean('Is Corporate')
-    to_pay = fields.Boolean('To pay',default=True)
-    medical_id = fields.Many2one('res.partner.lab','Medical')
-    cash_journal_id = fields.Many2one('account.journal','Cash Journal')
-    bank_journal_id1 = fields.Many2one('account.journal','Bank Journal')
-    bank_journal_id2 = fields.Many2one('account.journal','Bank Journal')
-    corporate_journal_id = fields.Many2one('account.journal','Corporate Journal')
+    to_pay = fields.Boolean('To pay', default=True)
+    medical_id = fields.Many2one('res.partner.lab', 'Medical')
+    cash_journal_id = fields.Many2one('account.journal', 'Cash Journal')
+    bank_journal_id1 = fields.Many2one('account.journal', 'Bank Journal')
+    bank_journal_id2 = fields.Many2one('account.journal', 'Bank Journal')
+    corporate_journal_id = fields.Many2one('account.journal', 'Corporate Journal')
     insurance_company_ids = fields.Char(compute='get_insurance_company')
     cash_amount = fields.Float('Cash')
     bank_amount1 = fields.Float('Ahly')
@@ -117,21 +118,24 @@ class SaleOrder(models.Model):
     round_off_value = fields.Float(compute='_amount_all', string='Round off amount')
     rounded_total = fields.Float(compute='_amount_all', string='Rounded Total')
     rounded_total_after_refund = fields.Float(compute='_amount_all', string='Rounded Total After Refund')
-    paid_amount = fields.Float(compute='_amount_all',string='Paid')
-    residual = fields.Float(compute='_amount_all',string='Amount Due')
+    paid_amount = fields.Float(compute='_amount_all', string='Paid')
+    residual = fields.Float(compute='_amount_all', string='Amount Due')
     payment_ids = fields.One2many('account.payment', 'sale_id', string='Payments')
     # payment_lines = fields.One2many('sale.payment.line','sale_id','Payment Details')
     payment_count = fields.Integer(string='Payments', compute='_compute_payment_ids')
-    discount_rate = fields.Float(related='corporate_id.discount_rate',string='Discount Rate',readonly=True)
-    discount_program_id = fields.Many2one(related="corporate_id.discount_program_id", string="Discount Program",readonly=True, help="That programm will be applied when corporate is selected")
-    adjusted_account_move = fields.Many2one('account.move','Discount Entry',readonly=True)
-    warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse',required=True, readonly=True,
-                                   states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},default=_default_warehouse_id)
-    project_id = fields.Many2one('account.analytic.account', 'Analytic Account',default=_default_team_analytic_id, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="The analytic account related to a sales order.", copy=False)
+    discount_rate = fields.Float(related='corporate_id.discount_rate', string='Discount Rate', readonly=True)
+    discount_program_id = fields.Many2one(related="corporate_id.discount_program_id", string="Discount Program",
+                                          readonly=True,
+                                          help="That programm will be applied when corporate is selected")
+    adjusted_account_move = fields.Many2one('account.move', 'Discount Entry', readonly=True)
+    warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse', required=True, readonly=True,
+                                   states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+                                   default=_default_warehouse_id)
+    project_id = fields.Many2one('account.analytic.account', 'Analytic Account', default=_default_team_analytic_id,
+                                 readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+                                 help="The analytic account related to a sales order.", copy=False)
 
     sale_promotion_id = fields.Char()
-
-
 
     @api.model
     def create(self, vals):
@@ -140,8 +144,8 @@ class SaleOrder(models.Model):
         if vals.get('team_id'):
             warehouse_id = self.env['crm.team'].browse(vals['team_id']).warehouse_id
             analytic_account_id = self.env['crm.team'].browse(vals['team_id']).analytic_account_id
-            vals.update({'warehouse_id':warehouse_id.id,
-                    'project_id':analytic_account_id.id})
+            vals.update({'warehouse_id': warehouse_id.id,
+                         'project_id': analytic_account_id.id})
         if vals['sale_type'] == "pos":
             if 'team_id' in vals:
                 team_id = self.env['crm.team'].browse(vals['team_id'])
@@ -150,14 +154,16 @@ class SaleOrder(models.Model):
                 sequence_code = self.team_id.sequence_id.code
             vals['name'] = self.env['ir.sequence'].next_by_code(sequence_code) or 'New'
             res = super(SaleOrder, self).create(vals)
-            if not vals.get('cash_amount') and not vals.get('bank_amount1') and not vals.get('bank_amount2') and not vals.get('corporate_amount'):
+            if not vals.get('cash_amount') and not vals.get('bank_amount1') and not vals.get(
+                    'bank_amount2') and not vals.get('corporate_amount'):
                 raise UserError(_("You cannot proceed in the order without any payments."))
             # if not res.payment_ids and not vals.get('payment_ids'):
             #     raise UserError(_("You cannot proceed in the order without any payments."))
 
             total_amount = res.bank_amount1 + res.bank_amount2 + res.cash_amount + res.corporate_amount
             if total_amount + res.paid_amount > res.rounded_total:
-                raise UserError(_("You cannot pay amount that exceed the amount due with %s.") % (total_amount + res.paid_amount - res.rounded_total))
+                raise UserError(_("You cannot pay amount that exceed the amount due with %s.") % (
+                        total_amount + res.paid_amount - res.rounded_total))
             full_payment_items = ''
             total_payment = total_amount
             amount_needed = 0
@@ -172,18 +178,19 @@ class SaleOrder(models.Model):
             for payment in res.payment_ids:
                 total_payment += payment.amount
             if total_payment < amount_needed:
-                raise UserError(_("There are remaining payments with value: %s for items: %s.") % (amount_needed - total_payment,full_payment_items))
+                raise UserError(_("There are remaining payments with value: %s for items: %s.") % (
+                    amount_needed - total_payment, full_payment_items))
         else:
             vals['name'] = self.env['ir.sequence'].next_by_code('sale.order') or 'New'
             res = super(SaleOrder, self).create(vals)
         return res
 
-
     @api.onchange('partner_id')
     def onchange_partner_insurance_company_id(self):
         for order in self:
             if order.partner_id:
-                medical = self.env['res.partner.lab'].sudo().search([('partner_id', '=', order.partner_id.id)], order="date desc", limit=1)
+                medical = self.env['res.partner.lab'].sudo().search([('partner_id', '=', order.partner_id.id)],
+                                                                    order="date desc", limit=1)
                 if medical:
                     order.medical_id = medical.id
                 else:
@@ -194,13 +201,11 @@ class SaleOrder(models.Model):
                 insurance_companies += ','
             order.insurance_company_ids = insurance_companies
 
-
     @api.onchange('team_id')
     def onchange_sales_team_id(self):
         for order in self:
             order.warehouse_id = order.team_id.warehouse_id
             order.project_id = order.team_id.analytic_account_id
-
 
     def _compute_payment_ids(self):
         for order in self:
@@ -213,7 +218,6 @@ class SaleOrder(models.Model):
             order.update({
                 'insurance_company_ids': order.partner_id.insurance_company_ids,
             })
-
 
     @api.multi
     def action_confirm(self):
@@ -242,10 +246,9 @@ class SaleOrder(models.Model):
                             order._force_picking_done(picking)
             for picking_id in order.picking_ids:
                 picking_id.write({
-                        'sale_order_id': order.id,
-                        })
+                    'sale_order_id': order.id,
+                })
         return res
-
 
     def _force_picking_done(self, picking):
         """Force picking in order to be set as done."""
@@ -272,27 +275,31 @@ class SaleOrder(models.Model):
         for order in self:
             total_amount = order.bank_amount1 + order.bank_amount2 + order.cash_amount + order.corporate_amount
             if total_amount + order.paid_amount > order.rounded_total:
-                raise UserError(_("You cannot pay amount that exceed the amount due with %s.") % (total_amount + order.paid_amount - order.rounded_total))
+                raise UserError(_("You cannot pay amount that exceed the amount due with %s.") % (
+                        total_amount + order.paid_amount - order.rounded_total))
             if order.bank_amount1:
                 journal = order.team_id.bank_journal_id
                 if not journal:
-                    raise UserError(_("Please define a bank journal for the sales team '%s'.") % (order.team_id.name or '',))
-                order._prepare_pos_payment(journal,order.bank_amount1,order.bank_memo1)
+                    raise UserError(
+                        _("Please define a bank journal for the sales team '%s'.") % (order.team_id.name or '',))
+                order._prepare_pos_payment(journal, order.bank_amount1, order.bank_memo1)
             if order.bank_amount2:
                 journal = order.team_id.bank_journal_id2
                 if not journal:
-                    raise UserError(_("Please define a bank journal for the sales team '%s'.") % (order.team_id.name or '',))
-                order._prepare_pos_payment(journal,order.bank_amount2,order.bank_memo2)
+                    raise UserError(
+                        _("Please define a bank journal for the sales team '%s'.") % (order.team_id.name or '',))
+                order._prepare_pos_payment(journal, order.bank_amount2, order.bank_memo2)
             if order.cash_amount:
                 journal = order.team_id.cash_journal_id
                 if not journal:
-                    raise UserError(_("Please define a cash journal for the sales team '%s'.") % (order.team_id.name or '',))
-                order._prepare_pos_payment(journal,order.cash_amount,order.cash_memo)
+                    raise UserError(
+                        _("Please define a cash journal for the sales team '%s'.") % (order.team_id.name or '',))
+                order._prepare_pos_payment(journal, order.cash_amount, order.cash_memo)
             if order.corporate_amount:
                 journal = journal_obj.search([('is_corporate', '=', True)], limit=1)
                 if not journal:
                     raise UserError(_("Please define a Corporate journal."))
-                payment = order._prepare_pos_payment(journal,order.corporate_amount,order.corporate_memo)
+                payment = order._prepare_pos_payment(journal, order.corporate_amount, order.corporate_memo)
                 if order.corporate_id.is_discount:
                     order.create_discount_journal_entry(payment)
             order.to_pay = False
@@ -306,19 +313,18 @@ class SaleOrder(models.Model):
             order.corporate_memo = ''
             return True
 
-
     @api.multi
-    def _prepare_pos_payment(self,journal,amount,memo):
+    def _prepare_pos_payment(self, journal, amount, memo):
         partner_id = self.partner_id.address_get(['invoice'])['invoice']
         payment_vals = ({
             'journal_id': journal.id,
-            'payment_type':'inbound',
+            'payment_type': 'inbound',
             'partner_type': 'customer',
-            'payment_method_id':1,
-            'amount':amount,
-            'communication':memo,
+            'payment_method_id': 1,
+            'amount': amount,
+            'communication': memo,
             'partner_id': partner_id,
-            'sale_id':self.id,
+            'sale_id': self.id,
             'sale_team_id': self.team_id.id,
         })
         if journal.is_corporate:
@@ -330,7 +336,6 @@ class SaleOrder(models.Model):
         if self.invoice_ids:
             payment.post()
         return payment
-
 
     @api.multi
     def action_view_account_payment(self):
@@ -355,7 +360,6 @@ class SaleOrder(models.Model):
             result = {'type': 'ir.actions.act_window_close'}
         return result
 
-
     @api.multi
     def create_discount_journal_entry(self, payment):
         discount_rate = self.discount_rate
@@ -374,11 +378,11 @@ class SaleOrder(models.Model):
                     categ = categ.parent_id
                 for category in discount_program.discount_category_ids:
                     if category.discount_category_id in item_categories:
-                        item_discount = category.discount_percentage/100 * payment.amount
+                        item_discount = category.discount_percentage / 100 * payment.amount
                         discount_amount += item_discount
 
                         journal_items.append((0, 0, {
-                            'name': 'Discount (' + item.product_id.name +' / '+category.discount_category_id.name + ')',
+                            'name': 'Discount (' + item.product_id.name + ' / ' + category.discount_category_id.name + ')',
                             'account_id': payment.journal_id.discount_account.id,
                             'partner_id': self.corporate_id.id,
                             'debit': item_discount,
@@ -390,7 +394,7 @@ class SaleOrder(models.Model):
                 'name': 'Discount',
                 'account_id': payment.journal_id.discount_account.id,
                 'partner_id': self.corporate_id.id,
-                'debit':discount_amount,
+                'debit': discount_amount,
                 'date': date.today(),
             }
             journal_items.append((0, 0, journal_item_debit))
@@ -401,7 +405,7 @@ class SaleOrder(models.Model):
                 'account_id': self.corporate_id.corporate_account_id.id,
                 'partner_id': self.corporate_id.id,
                 'credit': discount_amount,
-                'date':date.today(),
+                'date': date.today(),
             }
             journal_items.append((0, 0, journal_item_credit))
 
@@ -409,12 +413,11 @@ class SaleOrder(models.Model):
                 'ref': self.name,
                 'journal_id': payment.journal_id.id,
                 'date': date.today(),
-                'line_ids': [ line for line in journal_items]
+                'line_ids': [line for line in journal_items]
             }
             move_id = self.env['account.move'].create(account_move_data)
             move_id.post()
             self.adjusted_account_move = move_id.id
-
 
     @api.multi
     def create_pos_invoice(self):
@@ -433,15 +436,15 @@ class SaleOrder(models.Model):
             # order.write({'status': 'invoiced','invoice_id':invoice.id})
             return invoice
 
-
     @api.multi
     def _prepare_pos_invoice(self):
-        journal = self.env['account.journal'].search([('type', '=', 'sale'),('company_id', '=', self.company_id.id)],limit=1)
+        journal = self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)],
+                                                     limit=1)
         if not journal:
-            raise UserError(_("Please define a sale journal for the company '%s'.") %(self.company_id.name or '',))
+            raise UserError(_("Please define a sale journal for the company '%s'.") % (self.company_id.name or '',))
         currency = (
-            self.partner_id.property_product_pricelist.currency_id or
-            self.company_id.currency_id
+                self.partner_id.property_product_pricelist.currency_id or
+                self.company_id.currency_id
         )
         invoice_vals = ({
             'reference': False,
@@ -465,7 +468,6 @@ class SaleOrder(models.Model):
         })
         return invoice_vals
 
-
     @api.model
     def _prepare_pos_invoice_line(self, line, invoice_id):
         self.ensure_one()
@@ -480,7 +482,8 @@ class SaleOrder(models.Model):
             account_id = self.fiscal_position_id.map_account(inc_acc).id if inc_acc else False
         if not account_id:
             raise UserError(
-                _('There is no income account defined for this product: "%s". You may have to install a chart of account from Accounting app, settings menu.') %
+                _(
+                    'There is no income account defined for this product: "%s". You may have to install a chart of account from Accounting app, settings menu.') %
                 (line.product_id.name,))
 
         fpos = self.partner_id.property_account_position_id
@@ -520,6 +523,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     has_pricelist_discount = fields.Boolean('Apply Discount')
+    order_corporate_id = fields.Many2one('res.partner', related='order_id.corporate_id', readonly=1, string='Corporate')
 
     @api.onchange('product_uom_qty', 'product_uom', 'route_id')
     def _onchange_product_id_check_availability(self):
@@ -544,16 +548,17 @@ class SaleOrderLine(models.Model):
     def create(self, vals):
         res = super(SaleOrderLine, self).create(vals)
         product = res.product_id.with_context(
-            lang= res.order_id.partner_id.lang,
-            partner= res.order_id.partner_id.id,
-            quantity= vals.get('product_uom_qty') or res.product_uom_qty,
-            date= res.order_id.date_order,
-            pricelist= res.order_id.pricelist_id.id,
-            uom= res.product_uom.id
+            lang=res.order_id.partner_id.lang,
+            partner=res.order_id.partner_id.id,
+            quantity=vals.get('product_uom_qty') or res.product_uom_qty,
+            date=res.order_id.date_order,
+            pricelist=res.order_id.pricelist_id.id,
+            uom=res.product_uom.id
         )
         if res.order_id.pricelist_id and res.order_id.partner_id:
             vals['price_unit'] = res.product_id.lst_price
-            res.price_unit = self.env['account.tax']._fix_tax_included_price(res._get_display_price(product), product.taxes_id, res.tax_id)
+            res.price_unit = self.env['account.tax']._fix_tax_included_price(res._get_display_price(product),
+                                                                             product.taxes_id, res.tax_id)
         return res
 
     @api.constrains('discount')
@@ -567,10 +572,12 @@ class SaleOrderLine(models.Model):
             if apply_discount_limit and not line.has_pricelist_discount and not line.order_id.sale_promotion_id:
                 if self.env.user.has_group('eyefashion_sale.group_pos_store_manager'):
                     if line.discount > store_mgr_discount_limit:
-                        raise UserError(_("You cannot exceed the discount limit %s with item %s.")% (store_mgr_discount_limit,line.product_id.name))
-		elif self.env.user.has_group('eyefashion_sale.group_pos_salesman'):
+                        raise UserError(_("You cannot exceed the discount limit %s with item %s.") % (
+                            store_mgr_discount_limit, line.product_id.name))
+                elif self.env.user.has_group('eyefashion_sale.group_pos_salesman'):
                     if line.discount > salesman_discount_limit:
-                        raise UserError(_("You cannot exceed the discount limit %s with item %s.")% (salesman_discount_limit,line.product_id.name))
+                        raise UserError(_("You cannot exceed the discount limit %s with item %s.") % (
+                            salesman_discount_limit, line.product_id.name))
 
     @api.multi
     @api.onchange('product_id')
@@ -601,11 +608,14 @@ class SaleOrderLine(models.Model):
         self._compute_tax_id()
 
         if self.order_id.pricelist_id and self.order_id.partner_id:
-            vals['price_unit'] = self.env['account.tax']._fix_tax_included_price(self._get_display_price(product), product.taxes_id, self.tax_id)
+            vals['price_unit'] = self.env['account.tax']._fix_tax_included_price(self._get_display_price(product),
+                                                                                 product.taxes_id, self.tax_id)
             if vals['price_unit'] != product.lst_price and self.order_id.sale_type == 'pos':
                 vals['has_pricelist_discount'] = True
             else:
                 vals['has_pricelist_discount'] = False
+        if self.order_id.corporate_id:
+            vals['order_corporate_id'] = self.order_id.corporate_id.id
 
         self.update(vals)
 
