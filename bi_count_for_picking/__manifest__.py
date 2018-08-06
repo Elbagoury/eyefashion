@@ -8,7 +8,7 @@
     'author': "BI Solutions Development Team",
     'category': 'Accounting',
     'version': '0.1',
-    'depends': ['base', 'stock', 'account_accountant', 'purchase', 'sale'],
+    'depends': ['base', 'stock', 'account_accountant', 'purchase', 'sale', 'stock_inventory_adjustments_scan'],
     'data': [
         'views/count_for_picking.xml',
     ],

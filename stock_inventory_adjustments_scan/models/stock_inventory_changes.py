@@ -1,5 +1,5 @@
-from openerp import fields,api,models,exceptions
-from openerp.exceptions import UserError, Warning
+from odoo import fields,api,models,exceptions
+from odoo.exceptions import UserError, Warning
 
 
 class stock_inventory_inherit(models.Model):
@@ -38,7 +38,6 @@ class stock_inventory_inherit(models.Model):
                             for line in scan_list:
                                 if line.product_id.id == get_product.id:
                                     if type(line.id) == int:
-                                        print"here1"
                                         scanned_quantity = line.scanned_quantity + 1
                                         line_change_list.append([1, line.id, {'scanned_quantity': scanned_quantity}])
                                     else:
@@ -60,8 +59,6 @@ class stock_inventory_inherit(models.Model):
                                     scan_exist = True
 
                                 else:
-                                    print"here3"
-
                                     line_change_list.append([4, line.id])
                             if scan_exist == False:
                                 line_change_list.append([0, 0, {

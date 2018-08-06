@@ -9,7 +9,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='pack_operation_product_ids']/tree/field[@name='product_qty']"
                        position="attributes">
-                    <attribute name="sum">Total Count</attribute>
+                    <attribute name="sum">Total Quantity</attribute>
+                </xpath>
+                <xpath expr="//field[@name='pack_operation_product_ids']/tree/field[@name='qty_done']"
+                       position="attributes">
+                    <attribute name="sum">Total Quantity</attribute>
                 </xpath>
             </field>
         </record>
@@ -31,6 +35,20 @@
             <field name="inherit_id" ref="stock.view_inventory_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='product_qty']" position="attributes">
+                    <attribute name="sum">Total Quantity</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='theoretical_qty']" position="attributes">
+                    <attribute name="sum">Total Quantity</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="adjustment_stock_inventory_inherit_sum" model="ir.ui.view">
+            <field name="name">adjustment.stock.inventory.inherit.sum</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock_inventory_adjustments_scan.adjustment_stock_inventory_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='scanned_quantity']" position="attributes">
                     <attribute name="sum">Total Quantity</attribute>
                 </xpath>
             </field>
