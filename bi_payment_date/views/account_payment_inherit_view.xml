@@ -1,9 +1,9 @@
 <odoo>
     <data>
-        <record id="view_account_payment_form_payment_date" model="ir.ui.view">
+        <record id="view_account_payment_form_payment_invoice_date" model="ir.ui.view">
             <field name="name">view.account.payment.form.payment.date</field>
             <field name="model">account.payment</field>
-            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='payment_date']" position="replace">
                     <field name="check_user_access" invisible="1"/>
