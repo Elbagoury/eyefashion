@@ -17,16 +17,23 @@ class PaymentReport(models.AbstractModel):
             if payment.sale_team_id:
                 date = payment.payment_date
                 if date in grouped_dict:
-                    print("yes")
+
+                    if payment.sale_team_id.name in grouped_dict[date].keys():
+                        print('team in list of teams ')
+
+                    else:
+                        grouped_dict[date].update({payment.sale_team_id.name: {'team_name': payment.sale_team_id.name}})
+
                 else:
-                    grouped_dict[date] = {'date': payment.payment_date,
-                                          }
+                    grouped_dict[date] = {payment.sale_team_id.name: {'team_name': payment.sale_team_id.name}}
+
         docs = {
             'doc_model': 'account.payment',
             'docs': grouped_dict,
             'dates': [date_from, date_to]
 
         }
+        print("grouped_dict", grouped_dict)
         return self.env['report'].render('bi_payment_report.account_payment_template', docs)
 
 
