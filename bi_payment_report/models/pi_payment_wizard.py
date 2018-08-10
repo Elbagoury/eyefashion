@@ -17,15 +17,25 @@ class PaymentReport(models.AbstractModel):
             if payment.sale_team_id:
                 date = payment.payment_date
                 if date in grouped_dict:
-
+                    # team in same date dictionary
                     if payment.sale_team_id.name in grouped_dict[date].keys():
                         print('team in list of teams ')
+                        # journal in team dictionary keys
+                        if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
+                            print('journal in team')
 
+                        else:
+                            grouped_dict[date][payment.sale_team_id.name].update(
+                                {payment.journal_id.name: {'records': [payment]}})
+
+
+                    # team not in same date dictionary
                     else:
-                        grouped_dict[date].update({payment.sale_team_id.name: {'team_name': payment.sale_team_id.name}})
-
+                        grouped_dict[date].update(
+                            {payment.sale_team_id.name: {payment.journal_id.name: {'records': [payment]}}})
+                # add new payment date
                 else:
-                    grouped_dict[date] = {payment.sale_team_id.name: {'team_name': payment.sale_team_id.name}}
+                    grouped_dict[date] = {payment.sale_team_id.name: {payment.journal_id.name: {'records': [payment]}}}
 
         docs = {
             'doc_model': 'account.payment',

@@ -67,7 +67,7 @@
                                         <tr>
                                             <td style="margin-left:30px;">
                                                 &#9658;
-                                                <span t-esc="team_value['team_name']"/>
+                                                <span t-esc="team"/>
                                             </td>
                                             <td></td>
                                             <td></td>
@@ -77,44 +77,46 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                        <!--<tr>-->
-                                            <!--<td style="margin-left:60px;">-->
-                                                <!--&#9658;-->
-                                                <!--&lt;!&ndash;<span t-esc="o_value['journal']"/>&ndash;&gt;-->
-                                            <!--</td>-->
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                        <!--</tr>-->
-                                        <!--<t t-foreach="o_value['records']" t-as="payment">-->
-                                        <!--<tr>-->
-                                        <!--<td></td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.payment_date"/>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.name"/>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.journal_id.name"/>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.payment_method_id.name"/>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.partner_id.name"/>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.amount"/>-->
-                                        <!--</td>-->
-                                        <!--<td>-->
-                                        <!--<span t-esc="payment.state"/>-->
-                                        <!--</td>-->
-                                        <!--</tr>-->
+                                        <!--<t t-foreach="team_value" t-as="journal">-->
+                                            <!--<tr>-->
+                                                <!--<td style="margin-left:120px;">-->
+                                                    <!--&#9658;-->
+                                                    <!--<span t-esc="journal"/>-->
+                                                <!--</td>-->
+                                                <!--<td></td>-->
+                                                <!--<td></td>-->
+                                                <!--<td></td>-->
+                                                <!--<td></td>-->
+                                                <!--<td></td>-->
+                                                <!--<td></td>-->
+                                                <!--<td></td>-->
+                                            <!--</tr>-->
+                                            <!--&lt;!&ndash;<t t-foreach="o_value['records']" t-as="payment">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td></td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.payment_date"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.name"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.journal_id.name"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.payment_method_id.name"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.partner_id.name"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.amount"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<span t-esc="payment.state"/>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</t>&ndash;&gt;-->
                                         <!--</t>-->
                                     </t>
                                 </tbody>
