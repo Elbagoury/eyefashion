@@ -24,17 +24,16 @@ class StockPicking(models.Model):
     picking_type_status = fields.Char('Picking Type', compute='_get_picking_type')
     sale_order_id = fields.Many2one('sale.order', 'Sale Order')
     purchase_order_id = fields.Many2one('purchase.order', 'Purchase Order')
-    invoice_id = fields.Many2one('account.invoice',string='Invoice',compute='get_invoice_value')
 
-    @api.multi
-    def get_invoice_value(self):
-        for rec in self:
-            if rec.sale_order_id and not rec.purchase_order_id:
-                rec.invoice_id = rec.sale_order_id.invoice_ids[0]
-
-            elif rec.purchase_order_id and not rec.sale_order_id:
-                rec.invoice_id = rec.sale_order_id.invoice_ids[0]
-
+    # invoice_id = fields.Many2one('account.invoice',string='Invoice',compute='get_invoice_value')
+    # @api.multi
+    # def get_invoice_value(self):
+    #     for rec in self:
+    #         if rec.sale_order_id and not rec.purchase_order_id:
+    #             rec.invoice_id = rec.sale_order_id.invoice_ids[0]
+    #
+    #         elif rec.purchase_order_id and not rec.sale_order_id:
+    #             rec.invoice_id = rec.sale_order_id.invoice_ids[0]
 
     @api.multi
     def action_cancel(self):
