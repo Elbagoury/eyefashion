@@ -19,10 +19,9 @@ class PaymentReport(models.AbstractModel):
                 if date in grouped_dict:
                     # team in same date dictionary
                     if payment.sale_team_id.name in grouped_dict[date].keys():
-                        print('team in list of teams ')
                         # journal in team dictionary keys
                         if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
-                            print('journal in team')
+                            grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(payment)
 
                         else:
                             grouped_dict[date][payment.sale_team_id.name].update(
