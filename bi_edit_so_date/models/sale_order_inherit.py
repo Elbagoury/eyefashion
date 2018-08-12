@@ -5,4 +5,6 @@ from odoo import models, fields, api
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    date_order = fields.Date(string='Order Date', required=True, readonly=True, index=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False, default=fields.Datetime.now)
+    date_order_value = fields.Date(string='Sale Order Date', required=True,
+                                   states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
+                                   default=fields.Date.context_today, )

@@ -10,6 +10,7 @@
     'version': '0.1',
     'depends': ['base', 'sale'],
     'data': [
+        'views/sale_order_inherit_view.xml'
     ],
     'installable': True,
     'auto_install': False,
