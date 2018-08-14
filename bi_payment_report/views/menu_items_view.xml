@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <menuitem name="Payment Report"
+        <menuitem name="Payment Report" groups="account.group_account_manager"
                   id="payment_report_wizard_menu"
-                  parent="account.menu_account_reports"
+                  parent="account.menu_finance_legal_statement"
                   action="payment_report_wizard_action"
-                  sequence="10"/>
+                  sequence="101"/>
+
+        <menuitem id="pos_payment_report_wizard_menu" name="Payment Report" sequence="5"
+                  parent="eyefashion_sale.pos_reports"
+                  action="payment_report_wizard_action"/>
+
     </data>
 </odoo>
