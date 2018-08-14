@@ -21,7 +21,8 @@ class PaymentReport(models.AbstractModel):
                     if payment.sale_team_id.name in grouped_dict[date].keys():
                         # journal in team dictionary keys
                         if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
-                            grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(payment)
+                            grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(
+                                payment)
 
                         else:
                             grouped_dict[date][payment.sale_team_id.name].update(
@@ -42,26 +43,54 @@ class PaymentReport(models.AbstractModel):
             'dates': [date_from, date_to]
 
         }
-        print("grouped_dict", grouped_dict)
         return self.env['report'].render('bi_payment_report.account_payment_template', docs)
 
 
 class PaymentReportWizard(models.TransientModel):
     _name = 'payment.report.wizard'
 
+    @api.model
+    def get_journals(self):
+        current_user = self.env['res.users'].sudo().browse(self._uid)
+        team_journal_ids = []
+        if current_user:
+            if current_user.has_group('account.group_account_manager'):
+                journal_ids = self.env['account.journal'].sudo().search([('type', 'in', ('cash', 'bank'))]).ids
+                return [('id', 'in', journal_ids)]
+            else:
+                sale_teams = self.env['crm.team'].sudo().search([])
+                corporate_journal_id = self.env['account.journal'].sudo().search(
+                    [('type', 'in', ('cash', 'bank')), ('is_corporate', '=', True)], limit=1).id
+                if corporate_journal_id:
+                    team_journal_ids.append(corporate_journal_id)
+                for team in sale_teams:
+                    for member in team.member_ids:
+                        if member == current_user:
+                            if team.cash_journal_id.id and team.cash_journal_id.id not in team_journal_ids:
+                                team_journal_ids.append(team.cash_journal_id.id)
+                            if team.bank_journal_id.id and team.bank_journal_id.id not in team_journal_ids:
+                                team_journal_ids.append(team.bank_journal_id.id)
+                            if team.bank_journal_id2.id and team.bank_journal_id2.id not in team_journal_ids:
+                                team_journal_ids.append(team.bank_journal_id2.id)
+                return [('id', 'in', team_journal_ids)]
+
+    def get_teams(self):
+        current_user = self.env['res.users'].sudo().browse(self._uid)
+        if current_user:
+            if current_user.has_group('account.group_account_manager'):
+                team_ids = self.env['crm.team'].sudo().search([]).ids
+                return [('id', 'in', team_ids)]
+            else:
+                sale_teams = self.env['crm.team'].sudo().search([])
+                for team in sale_teams:
+                    for member in team.member_ids:
+                        if member == current_user:
+                            return [('id', '=', team.id)]
+
     date_from = fields.Date(string='From', required=True, default=fields.Date.context_today)
     date_to = fields.Date(string='To', required=True, default=fields.Date.context_today)
-    select_all_records = fields.Boolean(string='Select All')
-    journal_ids = fields.Many2many('account.journal', string='Journals', required=True,
-                                   domain=[('type', 'in', ('cash', 'bank'))])
-    team_ids = fields.Many2many('crm.team', string='Sales Team', required=True)
-
-    @api.onchange('select_all_records')
-    def get_journal_and_teams(self):
-        for rec in self:
-            if rec.select_all_records:
-                rec.journal_ids = self.env['account.journal'].search([('type', 'in', ('cash', 'bank'))]).ids
-                rec.team_ids = self.env['crm.team'].search([]).ids
+    journal_ids = fields.Many2many('account.journal', string='Journals', required=True, domain=get_journals, )
+    team_ids = fields.Many2many('crm.team', string='Sales Team', domain=get_teams, required=True)
 
     @api.multi
     def print_payment_report(self):

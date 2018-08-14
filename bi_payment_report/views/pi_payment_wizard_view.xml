@@ -10,9 +10,8 @@
                         <group>
                             <field name="date_from"/>
                             <field name="date_to"/>
-                            <field name="select_all_records"/>
-                            <field name="journal_ids" widget="many2many_tags"/>
-                            <field name="team_ids" widget="many2many_tags"/>
+                            <field name="journal_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                            <field name="team_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
                         </group>
                         <footer>
                             <button class="oe_highlight" string="Print Payment Report" name="print_payment_report"
