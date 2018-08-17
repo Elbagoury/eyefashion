@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="view_account_invoice_refund_no_create_refund_reason" model="ir.ui.view">
+            <field name="name">view.account.invoice.refund.no.create.refund.reason</field>
+            <field name="model">account.invoice.refund</field>
+            <field name="inherit_id" ref="account.view_account_invoice_refund"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='description']" position="replace">
+                    <field name="description" options="{'no_create_edit': True}"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_refund_reason_form" model="ir.ui.view">
             <field name="name">view.refund.reason.form</field>
             <field name="model">refund.reason</field>
