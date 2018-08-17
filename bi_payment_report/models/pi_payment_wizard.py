@@ -22,15 +22,14 @@ class PaymentReport(models.AbstractModel):
                     if payment.sale_team_id.name in grouped_dict[date].keys():
                         grouped_dict[date][payment.sale_team_id.name]['team_amount'] += payment.amount
                         # journal in team dictionary keys
-                        # if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
-                        #     print("hhhhhhhhhh")
-                        #     grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(
-                        #         payment)
-                        #     grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['journal_amount'] += payment.amount
-                        #
-                        # else:
-                        #     grouped_dict[date][payment.sale_team_id.name].update(
-                        #         {'journal_amount': payment.amount, payment.journal_id.name: {'records': [payment]}})
+                        if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
+                            grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(
+                                payment)
+                            grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['journal_amount'] += payment.amount
+
+                        else:
+                            grouped_dict[date][payment.sale_team_id.name].update(
+                                {payment.journal_id.name: {'journal_amount': payment.amount,'records': [payment]}})
 
 
                     # team not in same date dictionary
