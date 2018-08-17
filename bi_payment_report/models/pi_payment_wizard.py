@@ -18,24 +18,34 @@ class PaymentReport(models.AbstractModel):
                 date = payment.payment_date
                 if date in grouped_dict:
                     # team in same date dictionary
+                    grouped_dict[date]['date_amount'] += payment.amount
                     if payment.sale_team_id.name in grouped_dict[date].keys():
+                        grouped_dict[date][payment.sale_team_id.name]['team_amount'] += payment.amount
                         # journal in team dictionary keys
-                        if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
-                            grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(
-                                payment)
-
-                        else:
-                            grouped_dict[date][payment.sale_team_id.name].update(
-                                {payment.journal_id.name: {'records': [payment]}})
+                        # if payment.journal_id.name in grouped_dict[date][payment.sale_team_id.name].keys():
+                        #     print("hhhhhhhhhh")
+                        #     grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['records'].append(
+                        #         payment)
+                        #     grouped_dict[date][payment.sale_team_id.name][payment.journal_id.name]['journal_amount'] += payment.amount
+                        #
+                        # else:
+                        #     grouped_dict[date][payment.sale_team_id.name].update(
+                        #         {'journal_amount': payment.amount, payment.journal_id.name: {'records': [payment]}})
 
 
                     # team not in same date dictionary
                     else:
                         grouped_dict[date].update(
-                            {payment.sale_team_id.name: {payment.journal_id.name: {'records': [payment]}}})
+                            {payment.sale_team_id.name: {'team_amount': payment.amount,
+                                                         payment.journal_id.name: {'journal_amount': payment.amount,
+                                                                                   'records': [payment]}}})
                 # add new payment date
                 else:
-                    grouped_dict[date] = {payment.sale_team_id.name: {payment.journal_id.name: {'records': [payment]}}}
+                    grouped_dict[date] = {'date_amount': payment.amount,
+                                          payment.sale_team_id.name: {'team_amount': payment.amount,
+                                                                      payment.journal_id.name: {
+                                                                          'journal_amount': payment.amount,
+                                                                          'records': [payment]}}}
 
         docs = {
             'doc_model': 'account.payment',

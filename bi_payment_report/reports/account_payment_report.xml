@@ -58,62 +58,75 @@
                                         <td style="width:1.25%"></td>
                                         <td style="width:1.25%"></td>
                                         <td style="width:1.25%"></td>
-                                        <td style="width:1.25%"></td>
+                                        <td style="width:1.25%">
+                                            <span t-esc="o_value['date_amount']"/>
+                                        </td>
                                         <td style="width:1.25%"></td>
                                     </tr>
                                     <t t-foreach="o_value" t-as="team">
-                                        <tr>
-                                            <td style="width:2.25%">
-                                                &#9658;
-                                                <span t-esc="team"/>
-                                            </td>
-                                            <td style="width:0.25%"></td>
-                                            <td style="width:1.25%"></td>
-                                            <td style="width:1.25%"></td>
-                                            <td style="width:1.25%"></td>
-                                            <td style="width:1.25%"></td>
-                                            <td style="width:1.25%"></td>
-                                            <td style="width:1.25%"></td>
-                                        </tr>
-                                        <t t-foreach="team_value" t-as="journal">
-                                            <tr style="background-color:#e9ecef">
-                                                <td style="width:0.25%"></td>
-                                                <td style="width:6.25%">
+                                        <t t-if="team_value != o_value['date_amount']">
+                                            <tr>
+                                                <td style="width:2.25%">
                                                     &#9658;
-                                                    <span t-esc="journal"/>
+                                                    <span t-esc="team"/>
                                                 </td>
                                                 <td style="width:0.25%"></td>
-                                                <td style="width:0.25%"></td>
-                                                <td style="width:0.25%"></td>
-                                                <td style="width:0.25%"></td>
-                                                <td style="width:0.25%"></td>
-                                                <td style="width:0.25%"></td>
+                                                <td style="width:1.25%"></td>
+                                                <td style="width:1.25%"></td>
+                                                <td style="width:1.25%"></td>
+                                                <td style="width:1.25%"></td>
+                                                <td style="width:1.25%">
+                                                    <span t-esc="team_value['team_amount']"/>
+                                                </td>
+                                                <td style="width:1.25%"></td>
                                             </tr>
-                                            <t t-foreach="journal_value['records']" t-as="payment">
-                                                <tr>
-                                                    <td style="width:2%"></td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.payment_date"/>
-                                                    </td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.name"/>
-                                                    </td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.journal_id.name"/>
-                                                    </td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.payment_method_id.name"/>
-                                                    </td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.partner_id.name"/>
-                                                    </td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.amount"/>
-                                                    </td>
-                                                    <td style="width:1.25%">
-                                                        <span t-esc="payment.state"/>
-                                                    </td>
-                                                </tr>
+
+                                            <t t-foreach="team_value" t-as="journal">
+
+                                                <t t-if="journal_value != team_value['team_amount']">
+                                                    <tr style="background-color:#e9ecef">
+                                                        <td style="width:0.25%"></td>
+                                                        <td style="width:6.25%">
+                                                            &#9658;
+                                                            <span t-esc="journal"/>
+                                                        </td>
+                                                        <td style="width:0.25%"></td>
+                                                        <td style="width:0.25%"></td>
+                                                        <td style="width:0.25%"></td>
+                                                        <td style="width:0.25%"></td>
+                                                        <td style="width:0.25%">
+                                                            <span t-esc="journal_value['journal_amount']"/>
+                                                        </td>
+                                                        <td style="width:0.25%"></td>
+                                                    </tr>
+                                                    <t t-foreach="journal_value['records']" t-as="payment">
+                                                        <tr>
+                                                            <td style="width:2%"></td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.payment_date"/>
+                                                            </td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.name"/>
+                                                            </td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.journal_id.name"/>
+                                                            </td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.payment_method_id.name"/>
+                                                            </td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.partner_id.name"/>
+                                                            </td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.amount"/>
+                                                            </td>
+                                                            <td style="width:1.25%">
+                                                                <span t-esc="payment.state"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+
                                             </t>
                                         </t>
 
