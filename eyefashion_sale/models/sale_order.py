@@ -137,6 +137,17 @@ class SaleOrder(models.Model):
 
     sale_promotion_id = fields.Char()
 
+    @api.multi
+    @api.onchange('corporate_id')
+    def change_corporate_in_lines(self):
+        for order in self:
+            if order.order_line:
+                for line in order.order_line:
+                    if order.corporate_id:
+                        line.order_has_corporate = True
+                    else:
+                        line.order_has_corporate = False
+
     @api.model
     def create(self, vals):
         # if not vals.get('cash_amount') and not vals.get('bank_amount') and not vals.get('corporate_amount'):
@@ -523,6 +534,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     has_pricelist_discount = fields.Boolean('Apply Discount')
+    order_has_corporate = fields.Boolean('Order Has Corporate')
 
     @api.onchange('product_uom_qty', 'product_uom', 'route_id')
     def _onchange_product_id_check_availability(self):
@@ -613,6 +625,11 @@ class SaleOrderLine(models.Model):
                 vals['has_pricelist_discount'] = True
             else:
                 vals['has_pricelist_discount'] = False
+
+        if self.order_id.corporate_id:
+            vals['order_has_corporate'] = True
+        else:
+            vals['order_has_corporate'] = False
 
         self.update(vals)
 
