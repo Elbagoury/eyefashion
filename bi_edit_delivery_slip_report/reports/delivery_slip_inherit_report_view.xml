@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_delivery_slip_inherit" inherit_id="stock.report_delivery_document">
+            <xpath expr="//div//table[3]" position="after">
+                <div class="row">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table table-condensed">
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Total Delivered Qty:</strong>
+                                    <t t-set="sum_variable" t-value="0"/>
+                                    <t t-foreach="o.pack_operation_ids" t-as="l">
+                                        <t t-set="sum_variable" t-value="sum_variable+l.qty_done_uom_ordered"/>
+                                    </t>
+                                    <td class="text-right">
+                                        <span t-esc="sum_variable"/>
+                                    </td>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>
