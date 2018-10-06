@@ -22,9 +22,11 @@
                 <filter context="{'group_by':'date_order'}" position="replace">
                     <filter string="Order Month" domain="[]" context="{'group_by':'date_order_value'}"/>
                 </filter>
+                <field name="user_id" position="before">
+                    <filter string="Today" name="today_filter" domain="[('date_order_value', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),
+                ('date_order_value', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                </field>
             </field>
         </record>
-
-
     </data>
 </odoo>
